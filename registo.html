@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Gestão de Dadores</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="registo.html">Registo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="editar.html">Edição</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="relatorios.html">Relatórios</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
     <div class="container mt-5">
         <h1 class="text-center">Registo de Dadores</h1>
         <form id="registoForm">
@@ -46,23 +71,26 @@
     </div>
     
     <script>
-        const form = document.getElementById('registoForm');
-        const table = document.getElementById('dadoresTable');
-    
-        form.addEventListener('submit', (e) => {
+        document.getElementById('registoForm').addEventListener('submit', (e) => {
             e.preventDefault();
+        
             const nome = document.getElementById('nome').value;
             const tipoSangue = document.getElementById('tipoSangue').value;
-    
+        
             if (nome && tipoSangue) {
-                const row = `<tr><td>${nome}</td><td>${tipoSangue}</td></tr>`;
-                table.innerHTML += row;
-                form.reset();
+                const dadores = JSON.parse(localStorage.getItem('dadores')) || [];
+                const novoDador = { id: Date.now(), nome, tipoSangue };
+                dadores.push(novoDador);
+                localStorage.setItem('dadores', JSON.stringify(dadores));
+        
+                alert('Dador registado com sucesso!');
+                window.location.href = '../index.html';
             } else {
                 alert('Por favor, preencha todos os campos.');
             }
         });
-    </script>
+        </script>
+        
     
 </body>
 </html>
